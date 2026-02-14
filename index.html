@@ -4,116 +4,298 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bishal Bezbaruah | IT Officer & Computer Executive</title>
+    
+    <!-- Tailwind Play Script (Embedded for full functionality) -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        /* Embedded Fonts & Base Styles */
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
         :root {
             --primary: #4f46e5;
             --soft-bg: #fdfdfd;
-            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-bg: rgba(255, 255, 255, 0.9);
         }
+
         body {
             font-family: 'Outfit', sans-serif;
             background-color: var(--soft-bg);
             color: #334155;
             overflow-x: hidden;
         }
-        .bg-gradient-shapes {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background: 
-                radial-gradient(circle at 15% 15%, rgba(79, 70, 229, 0.04) 0%, transparent 30%),
-                radial-gradient(circle at 85% 85%, rgba(99, 102, 241, 0.04) 0%, transparent 30%);
-        }
+
+        /* Glassmorphism Hard-coded */
         .glass {
             background: var(--card-bg);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04);
         }
-        .text-gradient {
-            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+
+        /* Custom Reveal Animation */
         .reveal {
             opacity: 0;
             transform: translateY(20px);
-            transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1);
         }
+
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Slider Logic Styles */
         .slider-container {
             position: relative;
             overflow: hidden;
-            border-radius: 1.5rem;
-        }
-        .slider-track {
-            display: flex;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            width: 100%;
-        }
-        .slide {
-            min-width: 100%;
+            border-radius: 2rem;
             height: 350px;
         }
+
+        .slider-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+        }
+
         .slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+
         .dot-container {
             position: absolute;
-            bottom: 15px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 8px;
-            z-index: 10;
+            gap: 10px;
+            z-index: 20;
         }
+
         .dot {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.4);
             cursor: pointer;
             transition: all 0.3s ease;
         }
+
         .dot.active {
             background: white;
-            width: 20px;
+            width: 25px;
             border-radius: 10px;
         }
-        input, textarea {
-            background: white !important;
-            border: 1px solid #e2e8f0 !important;
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     </style>
 </head>
-<body>
-    <div class="bg-gradient-shapes"></div>
+<body class="selection:bg-indigo-100 selection:text-indigo-900">
+
+    <!-- Navbar -->
     <nav class="fixed top-0 w-full z-50 px-6 py-4">
-        <div class="max-w-6xl mx-auto flex justify-between items-center glass rounded-2xl px-6 py-3">
-            <div class="text-xl font-extrabold tracking-tight text-slate-900">
-                Bishal<span class="text-indigo-600">.B</span>
+        <div class="max-w-6xl mx-auto flex justify-between items-center glass rounded-[20px] px-8 py-4">
+            <div class="text-xl font-black tracking-tighter text-slate-900">
+                BISHAL<span class="text-indigo-600">.</span>BEZBARUAH
             </div>
+            <div class="hidden md:flex space-x-10 text-xs font-bold uppercase tracking-widest text-slate-500">
+                <a href="#hero" class="hover:text-indigo-600 transition-colors">Home</a>
+                <a href="#projects" class="hover:text-indigo-600 transition-colors">Projects</a>
+                <a href="#contact" class="hover:text-indigo-600 transition-colors">Contact</a>
+            </div>
+            <a href="mailto:bishaleco@gmail.com" class="hidden sm:block text-xs font-bold bg-slate-900 text-white px-6 py-3 rounded-xl hover:bg-indigo-600 transition-all">
+                HIRE ME
+            </a>
         </div>
     </nav>
-    <section id="hero" class="min-h-screen flex items-center px-6 pt-20">
-        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-            <div>
-                <h1 class="text-5xl md:text-7xl font-bold text-slate-900 leading-tight mb-6">
-                    Hi, I am <br> <span class="text-gradient">Bishal Bezbaruah</span>
+
+    <!-- Hero -->
+    <section id="hero" class="min-h-screen flex items-center justify-center px-6 pt-20">
+        <div class="max-w-6xl w-full grid md:grid-cols-2 gap-16 items-center">
+            <div class="reveal">
+                <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 mb-6">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                    </span>
+                    <span class="text-[10px] font-bold text-indigo-600 uppercase tracking-widest">IT Officer & Computer Executive</span>
+                </div>
+                <h1 class="text-6xl md:text-8xl font-bold text-slate-900 leading-[0.9] mb-8">
+                    Smart <span class="text-gradient">IT</span><br>Solutions.
                 </h1>
-                <p class="text-slate-500 text-lg leading-relaxed mb-8 max-w-md">
-                    Managing complex IT systems and hardware operations with efficiency and precision.
+                <p class="text-slate-500 text-lg md:text-xl leading-relaxed max-w-md mb-10">
+                    I am Bishal, ensuring your digital infrastructure runs smoothly with efficient system management and executive IT support.
                 </p>
+                <div class="flex items-center space-x-4">
+                    <a href="#contact" class="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-xl shadow-indigo-200 hover:bg-indigo-700 transition-all transform hover:-translate-y-1">Start Conversation</a>
+                    <a href="#projects" class="px-8 py-4 glass rounded-2xl font-bold hover:bg-white transition-all">View Projects</a>
+                </div>
+            </div>
+
+            <div class="relative reveal flex justify-center">
+                <div class="w-full aspect-[4/5] max-w-sm rounded-[3rem] overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-700 border-[12px] border-white">
+                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=800" alt="Bishal Bezbaruah" class="w-full h-full object-cover">
+                </div>
+                <!-- Abstract element -->
+                <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-indigo-100 rounded-full blur-3xl -z-10"></div>
             </div>
         </div>
     </section>
+
+    <!-- Projects with Auto-Slider -->
+    <section id="projects" class="py-32 px-6 bg-slate-50/50">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-20 reveal">
+                <div class="max-w-xl">
+                    <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">Technical <span class="text-gradient">Portfolio</span></h2>
+                    <p class="text-slate-500 text-lg">Detailed overview of my work in IT infrastructure and system upgrades.</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Project 1 -->
+                <div class="reveal group">
+                    <div class="slider-container glass mb-8" data-slider="1">
+                        <div class="slider-track">
+                            <div class="slide"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc51?auto=format&fit=crop&q=80&w=1000" alt="Work 1"></div>
+                            <div class="slide"><img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1000" alt="Work 2"></div>
+                            <div class="slide"><img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1000" alt="Work 3"></div>
+                        </div>
+                        <div class="dot-container"></div>
+                    </div>
+                    <div class="px-4">
+                        <span class="text-[10px] font-bold text-indigo-500 uppercase tracking-widest mb-2 block">System Administration</span>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-4">Corporate Network Overhaul</h3>
+                        <p class="text-slate-500 leading-relaxed">Modernized the office LAN architecture and improved firewall security protocols for 50+ workstations.</p>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="reveal group" style="transition-delay: 200ms;">
+                    <div class="slider-container glass mb-8" data-slider="2">
+                        <div class="slider-track">
+                            <div class="slide"><img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=1000" alt="Work A"></div>
+                            <div class="slide"><img src="https://images.unsplash.com/photo-1496171367470-9ed9a91ea931?auto=format&fit=crop&q=80&w=1000" alt="Work B"></div>
+                            <div class="slide"><img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1000" alt="Work C"></div>
+                        </div>
+                        <div class="dot-container"></div>
+                    </div>
+                    <div class="px-4">
+                        <span class="text-[10px] font-bold text-indigo-500 uppercase tracking-widest mb-2 block">Executive Support</span>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-4">IT Asset Management System</h3>
+                        <p class="text-slate-500 leading-relaxed">Developed a digital tracking system for hardware maintenance schedules and software licensing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="contact" class="py-32 px-6">
+        <div class="max-w-4xl mx-auto glass p-10 md:p-20 rounded-[4rem] reveal relative overflow-hidden">
+            <div class="relative z-10">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6">Let's <span class="text-gradient">Work</span> Together</h2>
+                    <p class="text-slate-500 text-lg">Send a message and I'll get back to you shortly.</p>
+                </div>
+
+                <form action="https://formspree.io/f/bishaleco@gmail.com" method="POST" class="grid gap-8">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="space-y-3">
+                            <label class="text-[10px] font-bold uppercase text-slate-400 tracking-widest ml-4">Full Name</label>
+                            <input type="text" name="name" required placeholder="John Doe" class="w-full bg-white border border-slate-100 px-6 py-5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all">
+                        </div>
+                        <div class="space-y-3">
+                            <label class="text-[10px] font-bold uppercase text-slate-400 tracking-widest ml-4">Email Address</label>
+                            <input type="email" name="email" required placeholder="john@example.com" class="w-full bg-white border border-slate-100 px-6 py-5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all">
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <label class="text-[10px] font-bold uppercase text-slate-400 tracking-widest ml-4">Message</label>
+                        <textarea name="message" rows="5" required placeholder="Describe your IT requirements..." class="w-full bg-white border border-slate-100 px-6 py-5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-slate-900 text-white py-6 rounded-2xl font-bold text-lg hover:bg-indigo-600 shadow-2xl shadow-indigo-100 active:scale-[0.98] transition-all">
+                        Launch Message
+                    </button>
+                </form>
+            </div>
+            <!-- Decorative blur -->
+            <div class="absolute -top-20 -left-20 w-80 h-80 bg-indigo-50 rounded-full blur-[100px] -z-10"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 border-t border-slate-100 text-center">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-2xl font-black tracking-tighter text-slate-900 mb-8">
+                BISHAL<span class="text-indigo-600">.</span>BEZBARUAH
+            </div>
+            <div class="flex justify-center space-x-10 mb-10 text-slate-400">
+                <a href="#" class="hover:text-indigo-600 transition-colors">LinkedIn</a>
+                <a href="#" class="hover:text-indigo-600 transition-colors">GitHub</a>
+                <a href="#" class="hover:text-indigo-600 transition-colors">Twitter</a>
+            </div>
+            <p class="text-[10px] font-bold text-slate-300 uppercase tracking-[0.3em]">© 2024 Computer Executive IT Officer Portfolio</p>
+        </div>
+    </footer>
+
+    <script>
+        // Reveal on Scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Slider Functionality
+        document.querySelectorAll('.slider-container').forEach(container => {
+            const track = container.querySelector('.slider-track');
+            const slides = container.querySelectorAll('.slide');
+            const dotContainer = container.querySelector('.dot-container');
+            let index = 0;
+
+            // Generate Dots
+            slides.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => setSlide(i));
+                dotContainer.appendChild(dot);
+            });
+
+            const dots = dotContainer.querySelectorAll('.dot');
+
+            function setSlide(n) {
+                index = n;
+                track.style.transform = `translateX(-${index * 100}%)`;
+                dots.forEach(d => d.classList.remove('active'));
+                dots[index].classList.add('active');
+            }
+
+            // Auto Play every 4 seconds
+            setInterval(() => {
+                index = (index + 1) % slides.length;
+                setSlide(index);
+            }, 4000);
+        });
+    </script>
 </body>
 </html>
