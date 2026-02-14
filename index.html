@@ -2,7 +2,7 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Bishal Bezbaruah | Web Developer & Computer Executive</title>
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -20,7 +20,9 @@
             background-color: var(--soft-bg);
             color: #334155;
             overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
+
         .glass {
             background: var(--card-bg);
             backdrop-filter: blur(12px);
@@ -28,6 +30,7 @@
             border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04);
         }
+
         .reveal {
             opacity: 0;
             transform: translateY(20px);
@@ -39,12 +42,19 @@
             transform: translateY(0);
         }
 
-        /* Slider*/
+        /* Slider */
         .slider-container {
             position: relative;
             overflow: hidden;
-            border-radius: 2rem;
-            height: 350px;
+            border-radius: 1.5rem;
+            height: 250px; /* Mobile height */
+        }
+        
+        @media (min-width: 768px) {
+            .slider-container {
+                height: 350px;
+                border-radius: 2rem;
+            }
         }
 
         .slider-track {
@@ -66,17 +76,17 @@
 
         .dot-container {
             position: absolute;
-            bottom: 20px;
+            bottom: 15px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 10px;
+            gap: 8px;
             z-index: 20;
         }
 
         .dot {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.4);
             cursor: pointer;
@@ -85,7 +95,7 @@
 
         .dot.active {
             background: white;
-            width: 25px;
+            width: 20px;
             border-radius: 10px;
         }
 
@@ -94,162 +104,197 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        /* Mobile Menu */
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out;
+            transform: translateY(-100%);
+        }
+        #mobile-menu.active {
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body class="selection:bg-indigo-100 selection:text-indigo-900">
 
     <!-- Navbar -->
-    <nav class="fixed top-0 w-full z-50 px-6 py-4">
-        <div class="max-w-6xl mx-auto flex justify-between items-center glass rounded-[20px] px-8 py-4">
-            <div class="text-xl font-black tracking-tighter text-slate-900">
+    <nav class="fixed top-0 w-full z-50 px-4 py-3 md:px-6 md:py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center glass rounded-2xl md:rounded-[20px] px-5 py-3 md:px-8 md:py-4">
+            <div class="text-lg md:text-xl font-black tracking-tighter text-slate-900">
                 BISHAL<span class="text-indigo-600">.</span>BEZBARUAH
             </div>
-            <div class="hidden md:flex space-x-10 text-xs font-bold uppercase tracking-widest text-slate-500">
+            
+            <!-- Desktop Links -->
+            <div class="hidden md:flex space-x-8 text-xs font-bold uppercase tracking-widest text-slate-500">
                 <a href="#hero" class="hover:text-indigo-600 transition-colors">Home</a>
                 <a href="#skills" class="hover:text-indigo-600 transition-colors">Skills</a>
                 <a href="#projects" class="hover:text-indigo-600 transition-colors">Projects</a>
                 <a href="#contact" class="hover:text-indigo-600 transition-colors">Contact</a>
             </div>
-            <a href="mailto:bishaleco@gmail.com" class="hidden sm:block text-xs font-bold bg-slate-900 text-white px-6 py-3 rounded-xl hover:bg-indigo-600 transition-all">
+
+            <!-- Mobile Menu Toggle -->
+            <button id="menu-btn" class="md:hidden p-2 text-slate-900 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+
+            <!-- Desktop Contact Btn -->
+            <a href="mailto:bishaleco@gmail.com" class="hidden md:block text-xs font-bold bg-slate-900 text-white px-6 py-3 rounded-xl hover:bg-indigo-600 transition-all">
                 CONTACT ME
             </a>
         </div>
     </nav>
 
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed top-0 left-0 w-full h-screen bg-white z-[45] flex flex-col items-center justify-center space-y-8 md:hidden">
+        <a href="#hero" class="mobile-link text-2xl font-bold text-slate-900">Home</a>
+        <a href="#skills" class="mobile-link text-2xl font-bold text-slate-900">Skills</a>
+        <a href="#projects" class="mobile-link text-2xl font-bold text-slate-900">Projects</a>
+        <a href="#contact" class="mobile-link text-2xl font-bold text-slate-900">Contact</a>
+        <button id="close-menu" class="mt-8 p-4 bg-slate-100 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </div>
+
     <!-- Hero -->
-    <section id="hero" class="min-h-screen flex items-center justify-center px-6 pt-20">
-        <div class="max-w-6xl w-full grid md:grid-cols-2 gap-16 items-center">
-            <div class="reveal">
+    <section id="hero" class="min-h-screen flex items-center justify-center px-6 pt-24 md:pt-0">
+        <div class="max-w-6xl w-full grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+            <div class="reveal order-2 md:order-1 text-center md:text-left">
                 <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 mb-6">
                     <span class="relative flex h-2 w-2">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
                     </span>
-                    <span class="text-[10px] font-bold text-indigo-600 uppercase tracking-widest">Web Developer & Computer Executive</span>
+                    <span class="text-[9px] md:text-[10px] font-bold text-indigo-600 uppercase tracking-widest">Web Developer & Computer Executive</span>
                 </div>
-                <h1 class="text-6xl md:text-8xl font-bold text-slate-900 leading-[0.9] mb-8">
-                    Web Developer<span class="text-gradient">&</span><br>Computer Executive.
+                <h1 class="text-5xl md:text-8xl font-bold text-slate-900 leading-[1.1] md:leading-[0.9] mb-6 md:mb-8">
+                    Web Developer<span class="text-gradient">&</span><br class="hidden md:block"> Computer Executive.
                 </h1>
-                <p class="text-slate-500 text-lg md:text-xl leading-relaxed max-w-md mb-10">
-                    Providing computer education and developing structured digital systems for schools. Experienced in managing academic portals, administrative data, UDISE reporting, and institutional documentation with accuracy and efficiency.
+                <p class="text-slate-500 text-base md:text-xl leading-relaxed max-w-md mx-auto md:mx-0 mb-8 md:mb-10">
+                    Providing computer education and developing structured digital systems for schools. Expert in UDISE, Sikha Setu, and academic portal management.
                 </p>
-                <div class="flex items-center space-x-4">
-    <a href="#contact" class="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-xl shadow-indigo-200 hover:bg-indigo-700 transition-all transform hover:-translate-y-1">
-        Start Conversation
-    </a>
-
-    <a href="#skills" class="px-8 py-4 glass rounded-2xl font-bold hover:bg-white transition-all">
-        Skills
-    </a>
-
-    <a href="#projects" class="px-8 py-4 glass rounded-2xl font-bold hover:bg-white transition-all">
-        View Projects
-    </a>
-</div>
-
-            <div class="relative reveal flex justify-center">
-                <div class="w-full aspect-[4/5] max-w-sm rounded-[3rem] overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-700 border-[12px] border-white">
-                    <img src="https://iili.io/qJHIHBV.md.jpg?auto=format&fit=crop&q=80&w=800" alt="Bishal Bezbaruah" class="w-full h-full object-cover">
+                <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
+                    <a href="#contact" class="w-full sm:w-auto text-center px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-xl shadow-indigo-200 hover:bg-indigo-700 transition-all">
+                        Start Conversation
+                    </a>
+                    <div class="flex gap-4 w-full sm:w-auto">
+                        <a href="#skills" class="flex-1 text-center px-6 py-4 glass rounded-2xl font-bold text-sm hover:bg-white transition-all">
+                            Skills
+                        </a>
+                        <a href="#projects" class="flex-1 text-center px-6 py-4 glass rounded-2xl font-bold text-sm hover:bg-white transition-all">
+                            Works
+                        </a>
+                    </div>
                 </div>
-                <!-- Abstract element -->
-                <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-indigo-100 rounded-full blur-3xl -z-10"></div>
+            </div>
+
+            <div class="relative reveal flex justify-center order-1 md:order-2">
+                <div class="w-full aspect-[4/5] max-w-[280px] md:max-w-sm rounded-[2.5rem] md:rounded-[3rem] overflow-hidden shadow-2xl md:rotate-2 md:hover:rotate-0 transition-transform duration-700 border-[8px] md:border-[12px] border-white">
+                    <img src="https://iili.io/qJHIHBV.md.jpg" alt="Bishal Bezbaruah" class="w-full h-full object-cover">
+                </div>
+                <div class="absolute -bottom-10 -right-10 w-32 h-32 md:w-40 md:h-40 bg-indigo-100 rounded-full blur-3xl -z-10"></div>
             </div>
         </div>
     </section>
 
     <!-- Skills Section -->
-<section id="skills" class="py-32 px-6 bg-white">
-    <div class="max-w-6xl mx-auto">
-        
-        <div class="text-center mb-20 reveal">
-            <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-                Professional <span class="text-gradient">Skills</span>
-            </h2>
-            <p class="text-slate-500 text-lg max-w-2xl mx-auto">
-                Practical experience in computer education, web development, and digital administration for academic institutions.
-            </p>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-10">
-
-            <!-- Skill Category 1 -->
-            <div class="glass p-10 rounded-3xl reveal">
-                <h3 class="text-xl font-bold text-slate-900 mb-6">Web Development</h3>
-                <ul class="space-y-3 text-slate-500">
-                    <li>• HTML & CSS</li>
-                    <li>• Responsive Design</li>
-                    <li>• Portal Development</li
-                </ul>
-            </div>
-
-            <!-- Skill Category 2 -->
-            <div class="glass p-10 rounded-3xl reveal" style="transition-delay:150ms;">
-                <h3 class="text-xl font-bold text-slate-900 mb-6">Data & Administration</h3>
-                <ul class="space-y-3 text-slate-500">
-                    <li>• UDISE Data Management</li>
-                    <li>• Academic Record Handling</li>
-                    <li>• SEBA & ASSEB Related Task</li>
-                    <li>• Sikha Setu Works(Assam)</li>
-                </ul>
-            </div>
-
-            <!-- Skill Category 3 -->
-            <div class="glass p-10 rounded-3xl reveal" style="transition-delay:300ms;">
-                <h3 class="text-xl font-bold text-slate-900 mb-6">Computer Education</h3>
-                <ul class="space-y-3 text-slate-500">
-                    <li>• Computer Fundamentals</li>
-                    <li>• Microsoft Word & Excel</li>
-                    <li>• HTML CSS</li>
-                </ul>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-    <!-- Projects with Auto-Slider -->
-    <section id="projects" class="py-32 px-6 bg-slate-50/50">
+    <section id="skills" class="py-20 md:py-32 px-6 bg-white">
         <div class="max-w-6xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-20 reveal">
-                <div class="max-w-xl">
-                    <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">Technical <span class="text-gradient">Portfolio</span></h2>
-                    <p class="text-slate-500 text-lg">Detailed overview of my work in IT infrastructure and system upgrades.</p>
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-5xl font-bold text-slate-900 mb-4">
+                    Professional <span class="text-gradient">Skills</span>
+                </h2>
+                <p class="text-slate-500 text-base md:text-lg max-w-2xl mx-auto">
+                    Practical experience in computer education and digital administration for academic institutions.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 md:gap-10">
+                <div class="glass p-8 md:p-10 rounded-3xl reveal">
+                    <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4">Web Development</h3>
+                    <ul class="space-y-3 text-slate-500 text-sm md:text-base">
+                        <li>• HTML & CSS (Tailwind)</li>
+                        <li>• Responsive Design</li>
+                        <li>• Portal Architecture</li>
+                        <li>• UI/UX Implementation</li>
+                    </ul>
+                </div>
+
+                <div class="glass p-8 md:p-10 rounded-3xl reveal" style="transition-delay:100ms;">
+                    <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4">Administration</h3>
+                    <ul class="space-y-3 text-slate-500 text-sm md:text-base">
+                        <li>• UDISE+ Management</li>
+                        <li>• Sikha Setu Portal</li>
+                        <li>• SEBA & ASSEB Compliance</li>
+                        <li>• Digital Documentation</li>
+                    </ul>
+                </div>
+
+                <div class="glass p-8 md:p-10 rounded-3xl reveal" style="transition-delay:200ms;">
+                    <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4">Education</h3>
+                    <ul class="space-y-3 text-slate-500 text-sm md:text-base">
+                        <li>• Fundamentals of IT</li>
+                        <li>• MS Office Productivity</li>
+                        <li>• Student IT Mentorship</li>
+                        <li>• Technical Workshops</li>
+                    </ul>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <div class="grid md:grid-cols-2 gap-12">
+    <!-- Projects -->
+    <section id="projects" class="py-20 md:py-32 px-6 bg-slate-50/50">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-16 reveal text-center md:text-left">
+                <h2 class="text-3xl md:text-5xl font-bold text-slate-900 mb-4">Technical <span class="text-gradient">Portfolio</span></h2>
+                <p class="text-slate-500 text-base md:text-lg">Recent systems built for academic modernization.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10 md:gap-12">
                 <!-- Project 1 -->
-                <div class="reveal group">
-                    <div class="slider-container glass mb-8" data-slider="1">
+                <div class="reveal">
+                    <div class="slider-container glass mb-6" data-slider="1">
                         <div class="slider-track">
-                            <div class="slide"><img src="https://iili.io/qJ9nXZN.md.png?auto=format&fit=crop&q=80&w=1000" alt="Work 1"></div>
-                            <div class="slide"><img src="https://iili.io/qJ9oy5G.md.png?auto=format&fit=crop&q=80&w=1000" alt="Work 2"></div>
-                            <div class="slide"><img src="https://iili.io/qJ9T7r7.md.png?auto=format&fit=crop&q=80&w=1000" alt="Work 3"></div>
+                            <div class="slide"><img src="https://iili.io/qJ9nXZN.md.png" alt="Admin Portal 1"></div>
+                            <div class="slide"><img src="https://iili.io/qJ9oy5G.md.png" alt="Admin Portal 2"></div>
+                            <div class="slide"><img src="https://iili.io/qJ9T7r7.md.png" alt="Admin Portal 3"></div>
                         </div>
                         <div class="dot-container"></div>
                     </div>
-                    <div class="px-4">
-                        <span class="text-[10px] font-bold text-indigo-500 uppercase tracking-widest mb-2 block">Bronson & Brown Eng Academy</span>
-                        <h3 class="text-2xl font-bold text-slate-900 mb-4">Academic Administrative Portal</h3>
-                        <p class="text-slate-500 leading-relaxed">Developed and deployed a school Academic Administrative Portal to manage question paper submission, report card uploads, leave applications, IT support tickets, and digital records, improving workflow efficiency and reducing manual processes.</p>
+                    <div class="px-2">
+                        <span class="text-[9px] font-bold text-indigo-500 uppercase tracking-widest mb-1 block">Bronson & Brown Eng Academy</span>
+                        <h3 class="text-xl md:text-2xl font-bold text-slate-900 mb-3">Academic Administrative Portal</h3>
+                        <p class="text-slate-500 text-sm md:text-base leading-relaxed">A central hub for staff to manage question papers, report uploads, and IT support tickets.</p>
                     </div>
                 </div>
 
                 <!-- Project 2 -->
-                <div class="reveal group" style="transition-delay: 200ms;">
-                    <div class="slider-container glass mb-8" data-slider="2">
+                <div class="reveal" style="transition-delay: 100ms;">
+                    <div class="slider-container glass mb-6" data-slider="2">
                         <div class="slider-track">
-                            <div class="slide"><img src="https://iili.io/qJJCwkG.md.png?auto=format&fit=crop&q=80&w=1000" alt="Work A"></div>
-                            <div class="slide"><img src="https://iili.io/qJJnOcF.md.png?auto=format&fit=crop&q=80&w=1000" alt="Work B"></div>
-                            <div class="slide"><img src="https://iili.io/qJJucFV.md.jpg?auto=format&fit=crop&q=80&w=1000" alt="Work C"></div>
+                            <div class="slide"><img src="https://iili.io/qJJCwkG.md.png" alt="Student Portal 1"></div>
+                            <div class="slide"><img src="https://iili.io/qJJnOcF.md.png" alt="Student Portal 2"></div>
+                            <div class="slide"><img src="https://iili.io/qJJucFV.md.jpg" alt="Student Portal 3"></div>
                         </div>
                         <div class="dot-container"></div>
                     </div>
-                    <div class="px-4">
-                        <span class="text-[10px] font-bold text-indigo-500 uppercase tracking-widest mb-2 block">Bronson & Brown Eng Academy</span>
-                        <h3 class="text-2xl font-bold text-slate-900 mb-4">Student Portal & Report Card Download System</h3>
-                        <p class="text-slate-500 leading-relaxed">Developed a secure Student Portal for accessing results, notices, exam updates, and academic services.
-Implemented a Report Card Download system with student verification (Class & Date of Birth) to ensure secure access to academic records.</p>
+                    <div class="px-2">
+                        <span class="text-[9px] font-bold text-indigo-500 uppercase tracking-widest mb-1 block">Bronson & Brown Eng Academy</span>
+                        <h3 class="text-xl md:text-2xl font-bold text-slate-900 mb-3">Result Download System</h3>
+                        <p class="text-slate-500 text-sm md:text-base leading-relaxed">Secure verification-based portal allowing students to download academic records independently.</p>
                     </div>
                 </div>
             </div>
@@ -257,51 +302,49 @@ Implemented a Report Card Download system with student verification (Class & Dat
     </section>
 
     <!-- Contact Form -->
-    <section id="contact" class="py-32 px-6">
-        <div class="max-w-4xl mx-auto glass p-10 md:p-20 rounded-[4rem] reveal relative overflow-hidden">
+    <section id="contact" class="py-20 md:py-32 px-4 md:px-6">
+        <div class="max-w-4xl mx-auto glass p-8 md:p-20 rounded-[2.5rem] md:rounded-[4rem] reveal relative overflow-hidden">
             <div class="relative z-10">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6">Let's <span class="text-gradient">Work</span> Together</h2>
-                    <p class="text-slate-500 text-lg">Send a message and I'll get back to you shortly.</p>
+                <div class="text-center mb-10 md:mb-16">
+                    <h2 class="text-3xl md:text-5xl font-bold text-slate-900 mb-4">Let's <span class="text-gradient">Work</span></h2>
+                    <p class="text-slate-500 text-sm md:text-lg">Response time: Usually within 24 hours.</p>
                 </div>
 
-                <form action="https://formspree.io/f/bishaleco@gmail.com" method="POST" class="grid gap-8">
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <div class="space-y-3">
-                            <label class="text-[10px] font-bold uppercase text-slate-400 tracking-widest ml-4">Full Name</label>
-                            <input type="text" name="name" required placeholder="John Doe" class="w-full bg-white border border-slate-100 px-6 py-5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all">
+                <form action="https://formspree.io/f/bishaleco@gmail.com" method="POST" class="grid gap-6 md:gap-8">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-[9px] font-bold uppercase text-slate-400 tracking-widest ml-4">Full Name</label>
+                            <input type="text" name="name" required placeholder="Your Name" class="w-full bg-white border border-slate-100 px-6 py-4 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all text-sm">
                         </div>
-                        <div class="space-y-3">
-                            <label class="text-[10px] font-bold uppercase text-slate-400 tracking-widest ml-4">Email Address</label>
-                            <input type="email" name="email" required placeholder="john@example.com" class="w-full bg-white border border-slate-100 px-6 py-5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all">
+                        <div class="space-y-2">
+                            <label class="text-[9px] font-bold uppercase text-slate-400 tracking-widest ml-4">Email Address</label>
+                            <input type="email" name="email" required placeholder="email@example.com" class="w-full bg-white border border-slate-100 px-6 py-4 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all text-sm">
                         </div>
                     </div>
-                    <div class="space-y-3">
-                        <label class="text-[10px] font-bold uppercase text-slate-400 tracking-widest ml-4">Message</label>
-                        <textarea name="message" rows="5" required placeholder="Describe your IT requirements..." class="w-full bg-white border border-slate-100 px-6 py-5 rounded-2xl focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all"></textarea>
+                    <div class="space-y-2">
+                        <label class="text-[9px] font-bold uppercase text-slate-400 tracking-widest ml-4">Message</label>
+                        <textarea name="message" rows="4" required placeholder="How can I help you?" class="w-full bg-white border border-slate-100 px-6 py-4 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all text-sm"></textarea>
                     </div>
-                    <button type="submit" class="w-full bg-slate-900 text-white py-6 rounded-2xl font-bold text-lg hover:bg-indigo-600 shadow-2xl shadow-indigo-100 active:scale-[0.98] transition-all">
-                        Launch Message
+                    <button type="submit" class="w-full bg-slate-900 text-white py-5 rounded-xl font-bold md:text-lg hover:bg-indigo-600 shadow-xl active:scale-95 transition-all">
+                        Send Message
                     </button>
                 </form>
             </div>
-            <!-- Decorative blur -->
-            <div class="absolute -top-20 -left-20 w-80 h-80 bg-indigo-50 rounded-full blur-[100px] -z-10"></div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-16 border-t border-slate-100 text-center">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="text-2xl font-black tracking-tighter text-slate-900 mb-8">
+    <footer class="py-12 md:py-16 border-t border-slate-100 text-center px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-xl font-black tracking-tighter text-slate-900 mb-6">
                 BISHAL<span class="text-indigo-600">.</span>BEZBARUAH
             </div>
-            <div class="flex justify-center space-x-10 mb-10 text-slate-400">
-                <a href="#" class="hover:text-indigo-600 transition-colors">LinkedIn</a>
-                <a href="#" class="hover:text-indigo-600 transition-colors">GitHub</a>
-                <a href="#" class="hover:text-indigo-600 transition-colors">Twitter</a>
+            <div class="flex flex-wrap justify-center gap-6 mb-8 text-xs font-bold uppercase tracking-widest text-slate-400">
+                <a href="#" class="hover:text-indigo-600">LinkedIn</a>
+                <a href="#" class="hover:text-indigo-600">GitHub</a>
+                <a href="#" class="hover:text-indigo-600">Twitter</a>
             </div>
-            <p class="text-[10px] font-bold text-slate-300 uppercase tracking-[0.3em]">© 2026 B3NEXUS - Bishal Bezbaruah</p>
+            <p class="text-[9px] font-bold text-slate-300 uppercase tracking-[0.3em]">© 2026 B3NEXUS • ALL RIGHTS RESERVED</p>
         </div>
     </footer>
 
@@ -317,19 +360,38 @@ Implemented a Report Card Download system with student verification (Class & Dat
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+        // Mobile Menu Logic
+        const menuBtn = document.getElementById('menu-btn');
+        const closeBtn = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('active');
+            document.body.classList.toggle('overflow-hidden');
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+        closeBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
         // Slider Functionality
         document.querySelectorAll('.slider-container').forEach(container => {
             const track = container.querySelector('.slider-track');
             const slides = container.querySelectorAll('.slide');
             const dotContainer = container.querySelector('.dot-container');
             let index = 0;
+            let autoPlayInterval;
 
             // Generate Dots
             slides.forEach((_, i) => {
                 const dot = document.createElement('div');
                 dot.classList.add('dot');
                 if (i === 0) dot.classList.add('active');
-                dot.addEventListener('click', () => setSlide(i));
+                dot.addEventListener('click', () => {
+                    setSlide(i);
+                    resetAutoPlay();
+                });
                 dotContainer.appendChild(dot);
             });
 
@@ -342,11 +404,35 @@ Implemented a Report Card Download system with student verification (Class & Dat
                 dots[index].classList.add('active');
             }
 
-            // Auto Play every 4 seconds
-            setInterval(() => {
-                index = (index + 1) % slides.length;
-                setSlide(index);
-            }, 4000);
+            function startAutoPlay() {
+                autoPlayInterval = setInterval(() => {
+                    index = (index + 1) % slides.length;
+                    setSlide(index);
+                }, 4000);
+            }
+
+            function resetAutoPlay() {
+                clearInterval(autoPlayInterval);
+                startAutoPlay();
+            }
+
+        
+            let startX = 0;
+            container.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+            container.addEventListener('touchend', e => {
+                const endX = e.changedTouches[0].clientX;
+                if (startX - endX > 50) { // Swipe Left
+                    index = (index + 1) % slides.length;
+                    setSlide(index);
+                    resetAutoPlay();
+                } else if (endX - startX > 50) { // Swipe Right
+                    index = (index - 1 + slides.length) % slides.length;
+                    setSlide(index);
+                    resetAutoPlay();
+                }
+            });
+
+            startAutoPlay();
         });
     </script>
 </body>
